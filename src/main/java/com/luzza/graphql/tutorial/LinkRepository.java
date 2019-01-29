@@ -35,13 +35,20 @@ public class LinkRepository {
         Document doc = new Document();
         doc.append("url", link.getUrl());
         doc.append("description", link.getDescription());
+        doc.append("rating", link.getRating());
         links.insertOne(doc);
     }
     
     private Link link(Document doc) {
+        String rating = "0";
+        if (doc.getString("rating") != null) {
+            rating = doc.getString("rating");
+        }
+        
         return new Link(
                 doc.get("_id").toString(),
                 doc.getString("url"),
-                doc.getString("description"));
+                doc.getString("description"),
+                rating);
     }
 }
